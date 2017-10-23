@@ -1,0 +1,39 @@
+<h4 class = "text-capitalize"><%= @group.name%></h4>
+<p>
+     <% if @group.attendees.include? current_user %>
+<!-- leave group -->
+     <form class="" action="<%= leave_group_path %>" method="post">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>"/>
+          <input type="hidden" name="attend[group_id]" value="<%= @group.id%>"/>
+          <input type="hidden" name="_method" value="delete"/>
+          <button class="btn btn-sm btn-warning">Leave Group</button>
+
+     </form>
+<% else %>
+     <!-- Join group -->
+     <form class="" action="<%= join_group_path %>" method="post">
+          <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>"/>
+          <input type="hidden" name="attend[group_id]" value="<%= @group.id%>"/>
+          <button class="btn btn-sm btn-primary"button>Join Group</button>
+
+     </form>
+<% end %>
+</p>
+
+<p> <%= @group.description %> </p>
+<!-- want if statement to show YOU if current user else the group creator name -->
+<p> Created By:
+     <%= @group.user.first_name.capitalize %> <%= @group.user.last_name.capitalize %>
+
+
+
+</p>
+<h5>Members:</h5>
+
+<% unless @group.attends.empty? %>
+     <% @group.attends.each do |attend| %>
+          <p class="text-capitalize"> <%= attend.user.first_name %> <%= attend.user.last_name %> </p>
+     <% end %>
+<% else %>
+     <p>This group has no members yet, be the first!</p>
+<% end %>

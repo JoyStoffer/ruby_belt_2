@@ -1,0 +1,60 @@
+<h4>Hi <%= @user.first_name.capitalize %> <%= @user.last_name.capitalize %>!</h4>
+
+<p>Here are the organizations you may join:</p>
+
+<div class="row">
+     <div class="row">
+
+     <div class="col-sm-12">
+          <table >
+               <% @groups.each do |group| %>
+                    <tbody>
+                         <tr>
+                              <td class="text-capitalize"><a href="<%= group_path group.id %>"><%= group.name %></a>
+                              <% if group.user == current_user %>
+                              <!-- Delete -->
+                              <form class="" action="<%= delete_group_path group.id%>" method="post">
+                                   <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>"/>
+                                   <input type="hidden" name="_method" value="delete"/>
+                                   <button class="btn btn-sm btn-danger"button>Delete</button>
+                              </form>
+                              <% end %>
+                              </td>
+                         </tr>
+                         <tr>
+
+                              <td class="text-capitalize"><%= group.description %></td>
+                         </tr>
+                         <tr>
+                              <td>
+                                   Members: <%= group.attendees.count  %>
+
+                             </td>
+                        </tr>
+                   </tbody>
+                   
+              <% end %>
+         </table>
+     </div>
+     </div>
+     <div class="row">
+          <div class="col-sm-2"></div>
+          <div class="col-sm-10">
+               <form class="" action="<%= create_group_path %>" method="post">
+                    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token%>"/>
+               <!-- Group Name -->
+                    <div class="form-group">
+                        <input type="text" name="group[name]"class="form-control" id="name" placeholder="Name"/>
+                    </div>
+               <!-- Group Description -->
+                    <div class="form-group">
+                         <textarea class="form-control" name="group[description]" placeholder="Description" id="name"></textarea>
+                    </div>
+               <!-- submit button  -->
+                    <div class="form-group">
+                      <button class='btn btn-success' type="submit">Create</button>
+                    </div>
+               </form>
+          </div>
+     </div>
+</div>
